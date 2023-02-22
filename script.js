@@ -49,16 +49,17 @@ function displayQuestion() {
 
         // show options
         let choices = quiz.getQuestionIndex().choices;
-        for(let i = 0; i < choices.length; i++) {
+        for (let i = 0; i < choices.length; i++) {
             let choiceElement = document.getElementById("choice" + i);
             choiceElement.innerHTML = choices[i];
             guess("btn" + i, choices[i]);
         }
+
         showProgress();
     }
 };
 
-// GUESS FUNCTION
+// GUESS ANSWER
 
 function guess(id, guess) {
     let button = document.getElementById(id);
@@ -66,47 +67,49 @@ function guess(id, guess) {
         quiz.guess(guess);
         displayQuestion();
     }
-}
+};
     // SHOW QUIZ PROGRESS
 function showProgress() {
-    let currentQuestionNumber = quiz.questionIndex + 1;
-    let progressElement = document.getElementById("progress");
-    progressElement.innerHTML = `Question ${currentQuestionNumber} of ${quiz.questions.length}`;
-}
+     let currentQuestionNumber = quiz.questionIndex + 1;
+     let ProgressElement = document.getElementById("progress");
+     ProgressElement.innerHTML =
+         `Question ${currentQuestionNumber} of ${quiz.questions.length}`;
+    };
 
 // SHOW SCORE
 
 function showScores() {
-    let quizEndHTML = 
-    `
+    let quizEndHTML =
+        `
     <h1>Quiz Completed</h1>
-    <h2 id="score">You Scored: ${quiz.score} of ${quiz.questions.length}</h2>
+    <h2 id='score'> Your scored: ${quiz.score} of ${quiz.questions.length}</h2>
     <div class="quiz-repeat">
-        <a href = "index.html"> Take Quiz Again</a>
+        <a href="index.html">Take Quiz Again</a>
     </div>
     `;
     let quizElement = document.getElementById("quiz");
     quizElement.innerHTML = quizEndHTML;
-}
+};
+
 
 // CREATE QUIZ QUESTIONS
 
 let questions = [
-        new Question(
-            "Hyper Text Markup Language stands for?", ["JQuery", "XHTML", "CSS", "HTML"], "HTML"
-        ), 
-        new Question(
-            "Cascading Style Sheet stands for?", ["HTML", "JQuery", "CSS", "XML"], "CSS"
-        ), 
-        new Question(
-            "Which is a JavaScript Framework?", ["React", "Laravel", "Django", "Sass"], "React"
-        ), 
-        new Question(
-            "Which is a backend Language?", ["PHP", "HTML", "React", "All"], "PHP"
-        ), 
-        new Question(
-            "Which is best for artificial intelligence?", ["React", "Laravel", "Python", "Sass"], "Python"
-        ) 
+    new Question(
+        "Hyper Text Markup Language Stands For?", ["JQuery", "XHTML", "CSS", "HTML"], "HTML"
+    ),
+    new Question(
+        "Cascading Style sheet stands for?", ["HTML", "JQuery", "CSS", "XML"], "CSS"
+    ),
+    new Question(
+        "Which is a JavaScript Framework?", ["React", "Laravel", "Django", "Sass"], "React"
+    ),
+    new Question(
+        "Which is a backend language?", ["PHP", "HTML", "React", "All"], "PHP"
+    ),
+    new Question(
+        "Which is best for Artificial intelligence?", ["React", "Laravel", "Python", "Sass"], "Python"
+    )
 ];
 
 let quiz = new Quiz(questions);
@@ -119,7 +122,7 @@ displayQuestion();
 
 let time = 10;
 let quizTimeInMinutes = time * 60 * 60;
-quizTime = quizTimeInMinutes / 60;
+let quizTime = quizTimeInMinutes / 60;
 
 let counting = document.getElementById("count-down");
 
@@ -129,12 +132,12 @@ function startCountdown() {
             clearInterval(quizTimer);
             showScores();
         } else {
-            quizTimer--;
-            let seconds = Math.floor(quizTime % 60);
-            let minute = Math.floor(quizTime / 60 ) % 60;
-            counting.innerHTML = `TIME: ${minute} : ${seconds}`;
+            quizTime--;
+            let sec = Math.floor(quizTime % 60);
+            let min = Math.floor(quizTime / 60) % 60;
+            counting.innerHTML = `TIME: ${min} : ${sec}`;
         }
-    }, 1000)
+    }, 1000);
 }
 
 startCountdown();
