@@ -3,7 +3,7 @@
 class Quiz {
     constructor(questions) {
         this.score = 0;
-        this.questions = 0;
+        this.questions = questions;
         this.questionIndex = 0;
     }
 
@@ -17,11 +17,11 @@ class Quiz {
         }
         this.questionIndex++;
     }
+
     isEnded() {
         return this.questionIndex === this.questions.length;
     }
 }
-
 // CREATE A QUESTION CLASS
 
 class Question {
@@ -48,7 +48,7 @@ function displayQuestion() {
         questionElement.innerHTML = quiz.getQuestionIndex().text;
 
         // show options
-        let choices = quiz.getQuestionIndex().choices
+        let choices = quiz.getQuestionIndex().choices;
         for(let i = 0; i < choices.length; i++) {
             let choiceElement = document.getElementById("choice" + i);
             choiceElement.innerHTML = choices[i];
@@ -67,10 +67,74 @@ function guess(id, guess) {
         displayQuestion();
     }
 }
-    // show quiz progress
-
+    // SHOW QUIZ PROGRESS
 function showProgress() {
     let currentQuestionNumber = quiz.questionIndex + 1;
     let progressElement = document.getElementById("progress");
-    progressElement.innerHTML = 
+    progressElement.innerHTML = `Question ${currentQuestionNumber} of ${quiz.questions.length}`;
 }
+
+// SHOW SCORE
+
+function showScores() {
+    let quizEndHTML = 
+    `
+    <h1>Quiz Completed</h1>
+    <h2 id="score">You Scored: ${quiz.score} of ${quiz.questions.length}</h2>
+    <div class="quiz-repeat">
+        <a href = "index.html"> Take Quiz Again</a>
+    </div>
+    `;
+    let quizElement = document.getElementById("quiz");
+    quizElement.innerHTML = quizEndHTML;
+}
+
+// CREATE QUIZ QUESTIONS
+
+let questions = [
+        new Question(
+            "Hyper Text Markup Language stands for?", ["JQuery", "XHTML", "CSS", "HTML"], "HTML"
+        ), 
+        new Question(
+            "Cascading Style Sheet stands for?", ["HTML", "JQuery", "CSS", "XML"], "CSS"
+        ), 
+        new Question(
+            "Which is a JavaScript Framework?", ["React", "Laravel", "Django", "Sass"], "React"
+        ), 
+        new Question(
+            "Which is a backend Language?", ["PHP", "HTML", "React", "All"], "PHP"
+        ), 
+        new Question(
+            "Which is best for artificial intelligence?", ["React", "Laravel", "Python", "Sass"], "Python"
+        ) 
+];
+
+let quiz = new Quiz(questions);
+
+// DISPLAY THE QUESTIONS
+
+displayQuestion();
+
+// ADD A COUNTDOWN
+
+let time = 10;
+let quizTimeInMinutes = time * 60 * 60;
+quizTime = quizTimeInMinutes / 60;
+
+let counting = document.getElementById("count-down");
+
+function startCountdown() {
+    let quizTimer = setInterval(function() {
+        if (quizTime <= 0) {
+            clearInterval(quizTimer);
+            showScores();
+        } else {
+            quizTimer--;
+            let seconds = Math.floor(quizTime % 60);
+            let minute = Math.floor(quizTime / 60 ) % 60;
+            counting.innerHTML = `TIME: ${minute} : ${seconds}`;
+        }
+    }, 1000)
+}
+
+startCountdown();
